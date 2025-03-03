@@ -76,15 +76,29 @@ class AddressBook {
         const contact = this.findContact(firstName, lastName);
         if (contact) {
             contact.updateContact(updatedDetails);
-            console.log(` Contact Updated: ${contact.toString()}`);
+            console.log(`✅ Contact Updated: ${contact.toString()}`);
         } else {
-            console.log("Contact not found!");
+            console.log("❌ Contact not found!");
+        }
+    }
+
+    deleteContact(firstName, lastName) {
+        const index = this.contacts.findIndex(contact => contact.firstName === firstName && contact.lastName === lastName);
+        if (index !== -1) {
+            this.contacts.splice(index, 1);
+            console.log(`🗑️ Contact Deleted: ${firstName} ${lastName}`);
+        } else {
+            console.log("❌ Contact not found!");
         }
     }
 
     displayContacts() {
-        console.log(`\n Address Book: ${this.name}`);
-        this.contacts.forEach(contact => console.log(contact.toString()));
+        console.log(`\n📖 Address Book: ${this.name}`);
+        if (this.contacts.length === 0) {
+            console.log("No contacts available.");
+        } else {
+            this.contacts.forEach(contact => console.log(contact.toString()));
+        }
     }
 }
 
@@ -112,11 +126,11 @@ try {
     const personalBook = manager.createAddressBook("Personal");
 
     // Adding Contacts
-    personalBook.addContact(new Contact("John", "Doe", "123 Main St", "New York", "NewYork", "10001", "1234567890", "john@example.com"));
-    personalBook.addContact(new Contact("Jane", "Smith", "456 Elm St", "Los Angeles", "Canada", "90001", "9876543210", "jane@example.com"));
+    personalBook.addContact(new Contact("John", "Doe", "123 Main St", "New York", "NY", "10001", "1234567890", "john@example.com"));
+    personalBook.addContact(new Contact("Jane", "Smith", "456 Elm St", "Los Angeles", "CA", "90001", "9876543210", "jane@example.com"));
 
-    // Display Before Editing
-    console.log("\n Before Editing:");
+    // Display Before Editing & Deleting
+    console.log("\n Before Editing & Deleting:");
     personalBook.displayContacts();
 
     // Editing Contact
@@ -125,6 +139,14 @@ try {
 
     // Display After Editing
     console.log("\n After Editing:");
+    personalBook.displayContacts();
+
+    // Deleting Contact
+    console.log("\n Deleting Contact...");
+    personalBook.deleteContact("Jane", "Smith");
+
+    // Display After Deleting
+    console.log("\n After Deleting:");
     personalBook.displayContacts();
 } catch (error) {
     console.error("Error:", error.message);
