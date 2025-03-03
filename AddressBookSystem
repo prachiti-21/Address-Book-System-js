@@ -78,34 +78,6 @@ class AddressBook {
         console.log(` Contact Added: ${contact.toString()}`);
     }
 
-    findContact(firstName, lastName) {
-        return this.contacts.find(contact => contact.firstName === firstName && contact.lastName === lastName);
-    }
-
-    editContact(firstName, lastName, updatedDetails) {
-        const contact = this.findContact(firstName, lastName);
-        if (contact) {
-            contact.updateContact(updatedDetails);
-            console.log(` Contact Updated: ${contact.toString()}`);
-        } else {
-            console.log(" Contact not found!");
-        }
-    }
-
-    deleteContact(firstName, lastName) {
-        const index = this.contacts.findIndex(contact => contact.firstName === firstName && contact.lastName === lastName);
-        if (index !== -1) {
-            this.contacts.splice(index, 1);
-            console.log(` Contact Deleted: ${firstName} ${lastName}`);
-        } else {
-            console.log(" Contact not found!");
-        }
-    }
-
-    getContactCount() {
-        return this.contacts.length;
-    }
-
     displayContacts() {
         console.log(`\n Address Book: ${this.name}`);
         if (this.contacts.length === 0) {
@@ -113,34 +85,34 @@ class AddressBook {
         } else {
             this.contacts.forEach(contact => console.log(contact.toString()));
         }
-        console.log(`\n Total Contacts: ${this.getContactCount()}`);
+        console.log(`\n Total Contacts: ${this.contacts.length}`);
     }
 
-    //  View Persons by City with Count
-    viewPersonsByCity(city) {
-        let contactsInCity = this.contacts.filter(contact => contact.city.toLowerCase() === city.toLowerCase());
-        console.log(`\n Contacts in ${city}:`);
-        contactsInCity.map(contact => console.log(contact.toString()));
-        console.log(` Total Contacts in ${city}: ${contactsInCity.length}`);
-    }
-
-    // View Persons by State with Count
-    viewPersonsByState(state) {
-        let contactsInState = this.contacts.filter(contact => contact.state.toLowerCase() === state.toLowerCase());
-        console.log(`\n📍 Contacts in ${state}:`);
-        contactsInState.map(contact => console.log(contact.toString()));
-        console.log(` Total Contacts in ${state}: ${contactsInState.length}`);
-    }
-
-    //  **Sort Entries Alphabetically by Name**
+    //  **Sort Entries by Name**
     sortContactsByName() {
         console.log("\n Sorting Contacts Alphabetically by Name...");
-        this.contacts.sort((a, b) => {
-            let nameA = a.firstName.toLowerCase();
-            let nameB = b.firstName.toLowerCase();
-            return nameA.localeCompare(nameB); // Alphabetical sorting
-        });
+        this.contacts.sort((a, b) => a.firstName.localeCompare(b.firstName));
+        this.contacts.forEach(contact => console.log(contact.toString()));
+    }
 
+    //  **Sort Entries by City**
+    sortContactsByCity() {
+        console.log("\n Sorting Contacts Alphabetically by City...");
+        this.contacts.sort((a, b) => a.city.localeCompare(b.city));
+        this.contacts.forEach(contact => console.log(contact.toString()));
+    }
+
+    //  **Sort Entries by State**
+    sortContactsByState() {
+        console.log("\n Sorting Contacts Alphabetically by State...");
+        this.contacts.sort((a, b) => a.state.localeCompare(b.state));
+        this.contacts.forEach(contact => console.log(contact.toString()));
+    }
+
+    //  **Sort Entries by Zip**
+    sortContactsByZip() {
+        console.log("\n Sorting Contacts Numerically by Zip Code...");
+        this.contacts.sort((a, b) => a.zip - b.zip);
         this.contacts.forEach(contact => console.log(contact.toString()));
     }
 }
@@ -171,11 +143,14 @@ try {
     // Adding Contacts
     personalBook.addContact(new Contact("John", "Doe", "123 Main St", "New York", "NY", "10001", "1234567890", "john@example.com"));
     personalBook.addContact(new Contact("Jane", "Smith", "456 Elm St", "Los Angeles", "CA", "90001", "9876543210", "jane@example.com"));
-    personalBook.addContact(new Contact("Alice", "Brown", "789 Maple St", "New York", "NY", "10002", "4567891230", "alice@example.com"));
-    personalBook.addContact(new Contact("Bob", "Johnson", "321 Oak St", "Los Angeles", "CA", "90002", "7891234560", "bob@example.com"));
+    personalBook.addContact(new Contact("Alice", "Brown", "789 Maple St", "San Francisco", "CA", "94101", "4567891230", "alice@example.com"));
+    personalBook.addContact(new Contact("Bob", "Johnson", "321 Oak St", "Austin", "TX", "73301", "7891234560", "bob@example.com"));
 
-    // Viewing sorted contacts by name
-    personalBook.sortContactsByName();
+    // Sorting Options
+    personalBook.sortContactsByName();  // Sort by Name
+    personalBook.sortContactsByCity();  // Sort by City
+    personalBook.sortContactsByState(); // Sort by State
+    personalBook.sortContactsByZip();   // Sort by Zip
 
     // Display Contacts
     console.log("\n Current Contacts:");
