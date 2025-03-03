@@ -65,18 +65,17 @@ class AddressBook {
     }
 
     addContact(contact) {
-        // Prevent Duplicate Entry using filter
         let existingContacts = this.contacts.filter(
             (c) => c.firstName === contact.firstName && c.lastName === contact.lastName
         );
 
         if (existingContacts.length > 0) {
-            console.log(` Duplicate Entry! Contact ${contact.firstName} ${contact.lastName} already exists.`);
+            console.log(`❌ Duplicate Entry! Contact ${contact.firstName} ${contact.lastName} already exists.`);
             return;
         }
 
         this.contacts.push(contact);
-        console.log(` Contact Added: ${contact.toString()}`);
+        console.log(`✅ Contact Added: ${contact.toString()}`);
     }
 
     findContact(firstName, lastName) {
@@ -87,9 +86,9 @@ class AddressBook {
         const contact = this.findContact(firstName, lastName);
         if (contact) {
             contact.updateContact(updatedDetails);
-            console.log(` Contact Updated: ${contact.toString()}`);
+            console.log(`✅ Contact Updated: ${contact.toString()}`);
         } else {
-            console.log(" Contact not found!");
+            console.log("❌ Contact not found!");
         }
     }
 
@@ -97,9 +96,9 @@ class AddressBook {
         const index = this.contacts.findIndex(contact => contact.firstName === firstName && contact.lastName === lastName);
         if (index !== -1) {
             this.contacts.splice(index, 1);
-            console.log(` Contact Deleted: ${firstName} ${lastName}`);
+            console.log(`🗑️ Contact Deleted: ${firstName} ${lastName}`);
         } else {
-            console.log(" Contact not found!");
+            console.log("❌ Contact not found!");
         }
     }
 
@@ -108,13 +107,34 @@ class AddressBook {
     }
 
     displayContacts() {
-        console.log(`\n Address Book: ${this.name}`);
+        console.log(`\n📖 Address Book: ${this.name}`);
         if (this.contacts.length === 0) {
             console.log("No contacts available.");
         } else {
             this.contacts.forEach(contact => console.log(contact.toString()));
         }
-        console.log(`\n Total Contacts: ${this.getContactCount()}`);
+        console.log(`\n🔢 Total Contacts: ${this.getContactCount()}`);
+    }
+
+    // 🔍 Search Contacts by City or State using `filter` and `map`
+    searchByCity(city) {
+        let contactsInCity = this.contacts.filter(contact => contact.city.toLowerCase() === city.toLowerCase());
+        if (contactsInCity.length === 0) {
+            console.log(`❌ No contacts found in ${city}.`);
+        } else {
+            console.log(`\n📍 Contacts in ${city}:`);
+            contactsInCity.map(contact => console.log(contact.toString()));
+        }
+    }
+
+    searchByState(state) {
+        let contactsInState = this.contacts.filter(contact => contact.state.toLowerCase() === state.toLowerCase());
+        if (contactsInState.length === 0) {
+            console.log(`❌ No contacts found in ${state}.`);
+        } else {
+            console.log(`\n📍 Contacts in ${state}:`);
+            contactsInState.map(contact => console.log(contact.toString()));
+        }
     }
 }
 
@@ -144,10 +164,19 @@ try {
     // Adding Contacts
     personalBook.addContact(new Contact("John", "Doe", "123 Main St", "New York", "NY", "10001", "1234567890", "john@example.com"));
     personalBook.addContact(new Contact("Jane", "Smith", "456 Elm St", "Los Angeles", "CA", "90001", "9876543210", "jane@example.com"));
+    personalBook.addContact(new Contact("Alice", "Brown", "789 Maple St", "New York", "NY", "10002", "4567891230", "alice@example.com"));
 
-    // Attempting to add a duplicate contact
-    console.log("\n Trying to Add Duplicate Contact...");
-    personalBook.addContact(new Contact("John", "Doe", "789 Pine St", "Chicago", "IL", "60601", "2223334444", "john.doe@gmail.com"));
+    // Searching by City
+    console.log("\n Searching Contacts in New York...");
+    personalBook.searchByCity("New York");
+
+    // Searching by State
+    console.log("\n Searching Contacts in California...");
+    personalBook.searchByState("CA");
+
+    // Searching for a city with no contacts
+    console.log("\n Searching Contacts in Chicago...");
+    personalBook.searchByCity("Chicago");
 
     // Display Contacts
     console.log("\n Current Contacts:");
