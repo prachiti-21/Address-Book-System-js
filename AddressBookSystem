@@ -1,0 +1,36 @@
+class Contact {
+    constructor(firstName, lastName, address, city, state, zip, phoneNumber, email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+    toString() {
+        return `${this.firstName} ${this.lastName}, ${this.address}, ${this.city}, ${this.state} - ${this.zip}, Phone: ${this.phoneNumber}, Email: ${this.email}`;
+    }
+}
+class AddressBook {
+    constructor() {
+        this.contacts = [];
+    }
+
+    addContact(contact) {
+        this.contacts.push(contact);
+    }
+
+    displayContacts() {
+        this.contacts.forEach(contact => console.log(contact.toString()));
+    }
+}
+
+// Example Usage
+const addressBook = new AddressBook();
+const contact1 = new Contact("John", "Doe", "123 Main St", "New York", "NY", "10001", "1234567890", "john@example.com");
+addressBook.addContact(contact1);
+addressBook.displayContacts();
+
