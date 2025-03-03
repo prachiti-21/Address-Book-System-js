@@ -116,28 +116,32 @@ class AddressBook {
         console.log(`\n Total Contacts: ${this.getContactCount()}`);
     }
 
-    // 🔍 View Persons by City with Count
+    //  View Persons by City with Count
     viewPersonsByCity(city) {
         let contactsInCity = this.contacts.filter(contact => contact.city.toLowerCase() === city.toLowerCase());
-        if (contactsInCity.length === 0) {
-            console.log(` No contacts found in ${city}.`);
-        } else {
-            console.log(`\n Contacts in ${city}:`);
-            contactsInCity.map(contact => console.log(contact.toString()));
-            console.log(` Total Contacts in ${city}: ${contactsInCity.length}`);
-        }
+        console.log(`\n Contacts in ${city}:`);
+        contactsInCity.map(contact => console.log(contact.toString()));
+        console.log(` Total Contacts in ${city}: ${contactsInCity.length}`);
     }
 
-    // 🔍 View Persons by State with Count
+    // View Persons by State with Count
     viewPersonsByState(state) {
         let contactsInState = this.contacts.filter(contact => contact.state.toLowerCase() === state.toLowerCase());
-        if (contactsInState.length === 0) {
-            console.log(` No contacts found in ${state}.`);
-        } else {
-            console.log(`\n Contacts in ${state}:`);
-            contactsInState.map(contact => console.log(contact.toString()));
-            console.log(` Total Contacts in ${state}: ${contactsInState.length}`);
-        }
+        console.log(`\n📍 Contacts in ${state}:`);
+        contactsInState.map(contact => console.log(contact.toString()));
+        console.log(` Total Contacts in ${state}: ${contactsInState.length}`);
+    }
+
+    //  **Sort Entries Alphabetically by Name**
+    sortContactsByName() {
+        console.log("\n Sorting Contacts Alphabetically by Name...");
+        this.contacts.sort((a, b) => {
+            let nameA = a.firstName.toLowerCase();
+            let nameB = b.firstName.toLowerCase();
+            return nameA.localeCompare(nameB); // Alphabetical sorting
+        });
+
+        this.contacts.forEach(contact => console.log(contact.toString()));
     }
 }
 
@@ -170,19 +174,8 @@ try {
     personalBook.addContact(new Contact("Alice", "Brown", "789 Maple St", "New York", "NY", "10002", "4567891230", "alice@example.com"));
     personalBook.addContact(new Contact("Bob", "Johnson", "321 Oak St", "Los Angeles", "CA", "90002", "7891234560", "bob@example.com"));
 
-    // Viewing persons by City with count
-    console.log("\n Viewing Persons in New York...");
-    personalBook.viewPersonsByCity("New York");
-
-    console.log("\n Viewing Persons in Los Angeles...");
-    personalBook.viewPersonsByCity("Los Angeles");
-
-    // Viewing persons by State with count
-    console.log("\n Viewing Persons in New York State...");
-    personalBook.viewPersonsByState("NY");
-
-    console.log("\n Viewing Persons in California...");
-    personalBook.viewPersonsByState("CA");
+    // Viewing sorted contacts by name
+    personalBook.sortContactsByName();
 
     // Display Contacts
     console.log("\n Current Contacts:");
