@@ -92,6 +92,10 @@ class AddressBook {
         }
     }
 
+    getContactCount() {
+        return this.contacts.reduce(count => count + 1, 0);
+    }
+
     displayContacts() {
         console.log(`\n📖 Address Book: ${this.name}`);
         if (this.contacts.length === 0) {
@@ -99,6 +103,7 @@ class AddressBook {
         } else {
             this.contacts.forEach(contact => console.log(contact.toString()));
         }
+        console.log(`\n🔢 Total Contacts: ${this.getContactCount()}`);
     }
 }
 
