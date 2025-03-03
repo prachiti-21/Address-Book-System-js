@@ -49,6 +49,10 @@ class Contact {
         return email;
     }
 
+    updateContact(updatedDetails) {
+        Object.assign(this, updatedDetails);
+    }
+
     toString() {
         return `${this.firstName} ${this.lastName}, ${this.address}, ${this.city}, ${this.state} - ${this.zip}, Phone: ${this.phoneNumber}, Email: ${this.email}`;
     }
@@ -64,8 +68,22 @@ class AddressBook {
         this.contacts.push(contact);
     }
 
+    findContact(firstName, lastName) {
+        return this.contacts.find(contact => contact.firstName === firstName && contact.lastName === lastName);
+    }
+
+    editContact(firstName, lastName, updatedDetails) {
+        const contact = this.findContact(firstName, lastName);
+        if (contact) {
+            contact.updateContact(updatedDetails);
+            console.log(` Contact Updated: ${contact.toString()}`);
+        } else {
+            console.log("Contact not found!");
+        }
+    }
+
     displayContacts() {
-        console.log(`\n📖 Address Book: ${this.name}`);
+        console.log(`\n Address Book: ${this.name}`);
         this.contacts.forEach(contact => console.log(contact.toString()));
     }
 }
@@ -90,16 +108,24 @@ class AddressBookManager {
 try {
     const manager = new AddressBookManager();
 
-    // Creating Multiple Address Books
+    // Creating Address Book
     const personalBook = manager.createAddressBook("Personal");
-    const workBook = manager.createAddressBook("Work");
 
     // Adding Contacts
     personalBook.addContact(new Contact("John", "Doe", "123 Main St", "New York", "NewYork", "10001", "1234567890", "john@example.com"));
-    workBook.addContact(new Contact("Jane", "Smith", "456 Elm St", "Los Angeles", "Canada", "90001", "9876543210", "jane@example.com"));
+    personalBook.addContact(new Contact("Jane", "Smith", "456 Elm St", "Los Angeles", "Canada", "90001", "9876543210", "jane@example.com"));
 
-    // Display All Address Books
-    manager.displayAllAddressBooks();
+    // Display Before Editing
+    console.log("\n Before Editing:");
+    personalBook.displayContacts();
+
+    // Editing Contact
+    console.log("\n Editing Contact...");
+    personalBook.editContact("John", "Doe", { phoneNumber: "1112223333", city: "Boston" });
+
+    // Display After Editing
+    console.log("\n After Editing:");
+    personalBook.displayContacts();
 } catch (error) {
     console.error("Error:", error.message);
 }
