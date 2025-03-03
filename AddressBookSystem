@@ -113,10 +113,10 @@ class AddressBook {
         } else {
             this.contacts.forEach(contact => console.log(contact.toString()));
         }
-        console.log(`\n🔢 Total Contacts: ${this.getContactCount()}`);
+        console.log(`\n Total Contacts: ${this.getContactCount()}`);
     }
 
-    // 🔍 View Persons by City using filter and map
+    // 🔍 View Persons by City with Count
     viewPersonsByCity(city) {
         let contactsInCity = this.contacts.filter(contact => contact.city.toLowerCase() === city.toLowerCase());
         if (contactsInCity.length === 0) {
@@ -124,10 +124,11 @@ class AddressBook {
         } else {
             console.log(`\n Contacts in ${city}:`);
             contactsInCity.map(contact => console.log(contact.toString()));
+            console.log(` Total Contacts in ${city}: ${contactsInCity.length}`);
         }
     }
 
-    //  View Persons by State using filter and map
+    // 🔍 View Persons by State with Count
     viewPersonsByState(state) {
         let contactsInState = this.contacts.filter(contact => contact.state.toLowerCase() === state.toLowerCase());
         if (contactsInState.length === 0) {
@@ -135,6 +136,7 @@ class AddressBook {
         } else {
             console.log(`\n Contacts in ${state}:`);
             contactsInState.map(contact => console.log(contact.toString()));
+            console.log(` Total Contacts in ${state}: ${contactsInState.length}`);
         }
     }
 }
@@ -166,12 +168,19 @@ try {
     personalBook.addContact(new Contact("John", "Doe", "123 Main St", "New York", "NY", "10001", "1234567890", "john@example.com"));
     personalBook.addContact(new Contact("Jane", "Smith", "456 Elm St", "Los Angeles", "CA", "90001", "9876543210", "jane@example.com"));
     personalBook.addContact(new Contact("Alice", "Brown", "789 Maple St", "New York", "NY", "10002", "4567891230", "alice@example.com"));
+    personalBook.addContact(new Contact("Bob", "Johnson", "321 Oak St", "Los Angeles", "CA", "90002", "7891234560", "bob@example.com"));
 
-    // Viewing persons by City
+    // Viewing persons by City with count
     console.log("\n Viewing Persons in New York...");
     personalBook.viewPersonsByCity("New York");
 
-    // Viewing persons by State
+    console.log("\n Viewing Persons in Los Angeles...");
+    personalBook.viewPersonsByCity("Los Angeles");
+
+    // Viewing persons by State with count
+    console.log("\n Viewing Persons in New York State...");
+    personalBook.viewPersonsByState("NY");
+
     console.log("\n Viewing Persons in California...");
     personalBook.viewPersonsByState("CA");
 
