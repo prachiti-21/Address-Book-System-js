@@ -1,19 +1,60 @@
 class Contact {
     constructor(firstName, lastName, address, city, state, zip, phoneNumber, email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
+        // Validate inputs before assigning
+        this.firstName = this.validateName(firstName, "First Name");
+        this.lastName = this.validateName(lastName, "Last Name");
+        this.address = this.validateAddress(address, "Address");
+        this.city = this.validateAddress(city, "City");
+        this.state = this.validateAddress(state, "State");
+        this.zip = this.validateZip(zip);
+        this.phoneNumber = this.validatePhone(phoneNumber);
+        this.email = this.validateEmail(email);
+    }
+
+    validateName(name, fieldName) {
+        const nameRegex = /^[A-Z][a-zA-Z]{2,}$/;
+        if (!nameRegex.test(name)) {
+            throw new Error(`${fieldName} must start with a capital letter and have at least 3 characters.`);
+        }
+        return name;
+    }
+
+    validateAddress(value, fieldName) {
+        if (value.length < 4) {
+            throw new Error(`${fieldName} must have at least 4 characters.`);
+        }
+        return value;
+    }
+
+    validateZip(zip) {
+        const zipRegex = /^[0-9]{5,6}$/;
+        if (!zipRegex.test(zip)) {
+            throw new Error("Zip must be a valid 5 or 6-digit number.");
+        }
+        return zip;
+    }
+
+    validatePhone(phone) {
+        const phoneRegex = /^[0-9]{10}$/;
+        if (!phoneRegex.test(phone)) {
+            throw new Error("Phone number must be a 10-digit number.");
+        }
+        return phone;
+    }
+
+    validateEmail(email) {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(email)) {
+            throw new Error("Invalid email format.");
+        }
+        return email;
     }
 
     toString() {
         return `${this.firstName} ${this.lastName}, ${this.address}, ${this.city}, ${this.state} - ${this.zip}, Phone: ${this.phoneNumber}, Email: ${this.email}`;
     }
 }
+
 class AddressBook {
     constructor() {
         this.contacts = [];
@@ -29,8 +70,11 @@ class AddressBook {
 }
 
 // Example Usage
-const addressBook = new AddressBook();
-const contact1 = new Contact("John", "Doe", "123 Main St", "New York", "NY", "10001", "1234567890", "john@example.com");
-addressBook.addContact(contact1);
-addressBook.displayContacts();
-
+try {
+    const addressBook = new AddressBook();
+    const contact1 = new Contact("John", "Doe", "123 Main St", "New York", "NY", "10001", "1234567890", "john@example.com");
+    addressBook.addContact(contact1);
+    addressBook.displayContacts();
+} catch (error) {
+    console.error("Error:", error.message);
+}
