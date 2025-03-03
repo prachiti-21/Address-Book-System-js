@@ -1,6 +1,5 @@
 class Contact {
     constructor(firstName, lastName, address, city, state, zip, phoneNumber, email) {
-        // Validate inputs before assigning
         this.firstName = this.validateName(firstName, "First Name");
         this.lastName = this.validateName(lastName, "Last Name");
         this.address = this.validateAddress(address, "Address");
@@ -56,7 +55,8 @@ class Contact {
 }
 
 class AddressBook {
-    constructor() {
+    constructor(name) {
+        this.name = name;
         this.contacts = [];
     }
 
@@ -65,16 +65,41 @@ class AddressBook {
     }
 
     displayContacts() {
+        console.log(`\n📖 Address Book: ${this.name}`);
         this.contacts.forEach(contact => console.log(contact.toString()));
+    }
+}
+
+class AddressBookManager {
+    constructor() {
+        this.addressBooks = [];
+    }
+
+    createAddressBook(name) {
+        const newAddressBook = new AddressBook(name);
+        this.addressBooks.push(newAddressBook);
+        return newAddressBook;
+    }
+
+    displayAllAddressBooks() {
+        this.addressBooks.forEach(book => book.displayContacts());
     }
 }
 
 // Example Usage
 try {
-    const addressBook = new AddressBook();
-    const contact1 = new Contact("John", "Doe", "123 Main St", "New York", "NY", "10001", "1234567890", "john@example.com");
-    addressBook.addContact(contact1);
-    addressBook.displayContacts();
+    const manager = new AddressBookManager();
+
+    // Creating Multiple Address Books
+    const personalBook = manager.createAddressBook("Personal");
+    const workBook = manager.createAddressBook("Work");
+
+    // Adding Contacts
+    personalBook.addContact(new Contact("John", "Doe", "123 Main St", "New York", "NewYork", "10001", "1234567890", "john@example.com"));
+    workBook.addContact(new Contact("Jane", "Smith", "456 Elm St", "Los Angeles", "Canada", "90001", "9876543210", "jane@example.com"));
+
+    // Display All Address Books
+    manager.displayAllAddressBooks();
 } catch (error) {
     console.error("Error:", error.message);
 }
